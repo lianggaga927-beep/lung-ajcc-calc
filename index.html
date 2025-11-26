@@ -15,7 +15,8 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
@@ -28,102 +29,160 @@
 
         .container {
             background-color: var(--card-bg);
-            padding: 2rem;
+            padding: 1.75rem;
             border-radius: var(--border-radius);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),
+                        0 4px 6px -2px rgba(0,0,0,0.05);
             width: 100%;
-            max-width: 480px;
+            max-width: 520px;
         }
 
         h1 {
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             color: var(--text-color);
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .meta {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-bottom: 1.25rem;
+            line-height: 1.4;
+        }
+
+        .meta div + div {
+            margin-top: 2px;
         }
 
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.1rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.45rem;
             font-weight: 600;
             color: #374151;
+            font-size: 0.9rem;
         }
 
-        select {
+        select,
+        input[type="number"] {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.7rem;
             border: 1px solid #d1d5db;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             background-color: #fff;
             transition: all 0.2s;
-            cursor: pointer;
+            box-sizing: border-box;
         }
 
-        select:focus {
+        select:focus,
+        input[type="number"]:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        .helper-text {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .inline-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.25rem;
+            flex-wrap: wrap;
         }
 
         .result-box {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background-color: #f8fafc;
+            margin-top: 1.5rem;
+            padding: 1.4rem;
+            background-color: #eff6ff;
             border-radius: 12px;
-            text-align: center;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s ease;
+            text-align: left;
+            border: 2px solid #bfdbfe;
+            transition: all 0.25s ease;
         }
 
         .result-title {
-            font-size: 0.875rem;
+            font-size: 0.78rem;
             color: #64748b;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             font-weight: 600;
         }
 
-        .result-value {
-            font-size: 2.5rem;
+        .result-stage {
+            font-size: 2rem;
             font-weight: 800;
             color: var(--primary-color);
-            line-height: 1.2;
-            margin-bottom: 1rem;
+            line-height: 1.1;
+            margin-bottom: 0.35rem;
         }
 
-        /* 複製按鈕樣式 */
-        .copy-btn {
+        .result-tnm {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-desc {
+            font-size: 0.8rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .btn-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .copy-btn,
+        .reset-btn {
             background-color: white;
             color: #4b5563;
             border: 1px solid #d1d5db;
-            padding: 10px 20px;
+            padding: 9px 16px;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 500;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             transition: all 0.2s;
-            width: 100%;
             justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        .copy-btn:hover {
+        .copy-btn:hover,
+        .reset-btn:hover {
             background-color: #f9fafb;
             border-color: #9ca3af;
             color: #111827;
         }
 
-        .copy-btn:active {
+        .copy-btn:active,
+        .reset-btn:active {
             transform: scale(0.98);
         }
 
@@ -133,12 +192,39 @@
             border-color: var(--success-color);
         }
 
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .lang-toggle label {
+            margin: 0;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+        }
+
         .note {
-            margin-top: 1.5rem;
+            margin-top: 1.25rem;
             font-size: 0.75rem;
             color: #9ca3af;
-            text-align: center;
-            line-height: 1.5;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 1.25rem;
+            }
+            .result-stage {
+                font-size: 1.7rem;
+            }
         }
     </style>
 </head>
@@ -146,184 +232,444 @@
 
 <div class="container">
     <h1>🫁 肺癌 AJCC 分期 (9th)</h1>
+    <div class="subtitle">適用：非小細胞肺癌（NSCLC）臨床分期 cTNM</div>
+
+    <div class="meta">
+        <div>版本：AJCC 第 9 版（Lung Cancer Staging）</div>
+        <div>不適用：小細胞肺癌、術後病理分期 pTNM、肺轉移瘤</div>
+        <div>最後更新：2025-11-26</div>
+    </div>
 
     <div class="form-group">
-        <label for="t-stage">T (原發腫瘤)</label>
-        <select id="t-stage" onchange="calculateStage()">
-            <option value="TX">TX: 原發腫瘤無法評估 / 痰中有癌細胞</option>
-            <option value="Tis">Tis: 原位癌 (Carcinoma in situ)</option>
-            <option value="T1mi">T1mi: 微侵犯腺癌 (Minimally invasive)</option>
-            <option value="T1a">T1a: ≤ 1 cm</option>
-            <option value="T1b">T1b: > 1 cm 且 ≤ 2 cm</option>
-            <option value="T1c">T1c: > 2 cm 且 ≤ 3 cm</option>
-            <option value="T2a">T2a: > 3 cm 且 ≤ 4 cm</option>
-            <option value="T2b">T2b: > 4 cm 且 ≤ 5 cm</option>
-            <option value="T3">T3: > 5 cm 且 ≤ 7 cm / 侵犯特定結構</option>
-            <option value="T4">T4: > 7 cm / 侵犯縱膈等重要結構</option>
+        <label for="tumor-size">腫瘤最大徑（cm，選填）</label>
+        <input
+            id="tumor-size"
+            type="number"
+            min="0"
+            step="0.1"
+            placeholder="例如：3.4"
+        />
+        <div class="helper-text">
+            將依大小自動推估 T 期（僅考慮腫瘤徑長，未納入縱膈侵犯、多發結節等，
+            若有上述情形請自行調整 T 分期）。
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="t-stage">T（原發腫瘤）</label>
+        <select id="t-stage">
+            <option value="TX">TX：原發腫瘤無法評估 / 痰中有癌細胞</option>
+            <option value="Tis">Tis：原位癌 (Carcinoma in situ)</option>
+            <option value="T1mi">T1mi：微侵犯腺癌 (Minimally invasive)</option>
+            <option value="T1a">T1a：≤ 1 cm</option>
+            <option value="T1b">T1b：> 1 cm 且 ≤ 2 cm</option>
+            <option value="T1c">T1c：> 2 cm 且 ≤ 3 cm</option>
+            <option value="T2a">T2a：> 3 cm 且 ≤ 4 cm</option>
+            <option value="T2b">T2b：> 4 cm 且 ≤ 5 cm</option>
+            <option value="T3">T3：> 5 cm 且 ≤ 7 cm / 侵犯特定結構</option>
+            <option value="T4">T4：> 7 cm / 侵犯縱膈等重要結構</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="n-stage">N (區域淋巴結)</label>
-        <select id="n-stage" onchange="calculateStage()">
-            <option value="N0">N0: 無淋巴轉移</option>
-            <option value="N1">N1: 同側支氣管周圍/肺門</option>
-            <option value="N2a">N2a: 單一站同側縱膈/隆突下</option>
-            <option value="N2b">N2b: 多站同側縱膈/隆突下</option>
-            <option value="N3">N3: 對側縱膈/對側肺門/鎖骨上</option>
+        <label for="n-stage">N（區域淋巴結）</label>
+        <select id="n-stage">
+            <option value="N0">N0：無淋巴轉移</option>
+            <option value="N1">N1：同側支氣管周圍 / 肺門</option>
+            <option value="N2a">N2a：單一站同側縱膈 / 隆突下</option>
+            <option value="N2b">N2b：多站同側縱膈 / 隆突下</option>
+            <option value="N3">N3：對側縱膈 / 對側肺門 / 鎖骨上</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="m-stage">M (遠端轉移)</label>
-        <select id="m-stage" onchange="calculateStage()">
-            <option value="M0">M0: 無遠端轉移</option>
-            <option value="M1a">M1a: 對側肺葉/胸膜/心包膜結節</option>
-            <option value="M1b">M1b: 單一胸腔外轉移</option>
-            <option value="M1c1">M1c1: 多處胸腔外轉移 (單一器官)</option>
-            <option value="M1c2">M1c2: 多處胸腔外轉移 (多器官)</option>
+        <label for="m-stage">M（遠端轉移）</label>
+        <select id="m-stage">
+            <option value="M0">M0：無遠端轉移</option>
+            <option value="M1a">M1a：對側肺葉 / 胸膜 / 心包膜結節</option>
+            <option value="M1b">M1b：單一胸腔外轉移</option>
+            <option value="M1c1">M1c1：多處胸腔外轉移（單一器官）</option>
+            <option value="M1c2">M1c2：多處胸腔外轉移（多器官）</option>
         </select>
     </div>
 
     <div class="result-box" id="result-container">
-        <div class="result-title">Calculated Stage</div>
-        <div class="result-value" id="result">Occult Carcinoma</div>
-        
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">
-            <span id="btnIcon">📋</span> <span id="btnText">複製結果</span>
-        </button>
+        <div class="result-title">分期結果（AJCC 9th）</div>
+        <div class="result-stage" id="resultStage">Occult Carcinoma</div>
+        <div class="result-tnm" id="resultTNM">TNM：cTX N0 M0</div>
+        <div class="result-desc" id="resultDesc">
+            以痰細胞學發現癌細胞，但影像學未見明確原發腫瘤（隱匿癌）。
+        </div>
+
+        <div class="btn-row">
+            <button class="copy-btn" id="copyBtn">
+                <span id="btnIcon">📋</span>
+                <span id="btnText">複製結果</span>
+            </button>
+            <button class="reset-btn" id="resetBtn">
+                🔄 重設所有欄位
+            </button>
+        </div>
+
+        <div class="lang-toggle">
+            <span>複製語言：</span>
+            <label>
+                <input type="radio" name="copyLang" value="zh" checked>
+                中文
+            </label>
+            <label>
+                <input type="radio" name="copyLang" value="en">
+                English
+            </label>
+        </div>
     </div>
 
     <div class="note">
-        本工具僅供參考，請以 AJCC 第 9 版正式指引與臨床醫師判斷為準。<br>
-        Created for Educational Purpose.
+        本工具僅供教學與訓練使用，不構成醫療建議或正式診斷分期。<br>
+        實際分期與治療決策，應由肺癌專科醫師與多專業團隊，
+        依病人完整臨床資訊與 AJCC 正式指引共同判斷。
     </div>
 </div>
 
 <script>
-    function calculateStage() {
-        const t = document.getElementById('t-stage').value;
-        const n = document.getElementById('n-stage').value;
-        const m = document.getElementById('m-stage').value;
-        let stage = "Unknown";
-        
-        // 重置按鈕狀態
+    const tSelect = document.getElementById('t-stage');
+    const nSelect = document.getElementById('n-stage');
+    const mSelect = document.getElementById('m-stage');
+    const sizeInput = document.getElementById('tumor-size');
+
+    const resultStageEl = document.getElementById('resultStage');
+    const resultTNMEl = document.getElementById('resultTNM');
+    const resultDescEl = document.getElementById('resultDesc');
+    const resultBoxEl = document.getElementById('result-container');
+
+    const copyBtn = document.getElementById('copyBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+
+    const t1_group = ['T1mi', 'T1a', 'T1b', 'T1c'];
+    const t2_group = ['T2a', 'T2b'];
+    const t1_t2_group = t1_group.concat(t2_group);
+
+    function determineStage(t, n, m) {
+        // 先依 M 決定是否為 IV 期
+        if (m === 'M1c1' || m === 'M1c2') {
+            return { stage: 'Stage IVB', valid: true };
+        }
+        if (m === 'M1a' || m === 'M1b') {
+            return { stage: 'Stage IVA', valid: true };
+        }
+        if (m !== 'M0') {
+            return {
+                stage: '無對應分期',
+                valid: false
+            };
+        }
+
+        // 以下為 M0 時依 T/N 組合
+        if (n === 'N3') {
+            if (t === 'T3' || t === 'T4') {
+                return { stage: 'Stage IIIC', valid: true };
+            }
+            if (t1_t2_group.includes(t)) {
+                return { stage: 'Stage IIIB', valid: true };
+            }
+            return { stage: '無對應分期', valid: false };
+        }
+
+        if (n === 'N2b') {
+            if (t === 'T4') {
+                return { stage: 'Stage IIIB', valid: true };
+            }
+            if (t === 'T3' || t2_group.includes(t)) {
+                return { stage: 'Stage IIIB', valid: true };
+            }
+            if (t1_group.includes(t)) {
+                return { stage: 'Stage IIIA', valid: true };
+            }
+            return { stage: '無對應分期', valid: false };
+        }
+
+        if (n === 'N2a') {
+            if (t === 'T4') {
+                return { stage: 'Stage IIIB', valid: true };
+            }
+            if (t === 'T3' || t2_group.includes(t)) {
+                return { stage: 'Stage IIIA', valid: true };
+            }
+            if (t1_group.includes(t)) {
+                return { stage: 'Stage IIB', valid: true };
+            }
+            return { stage: '無對應分期', valid: false };
+        }
+
+        if (n === 'N1') {
+            if (t === 'T3' || t === 'T4') {
+                return { stage: 'Stage IIIA', valid: true };
+            }
+            if (t2_group.includes(t)) {
+                return { stage: 'Stage IIB', valid: true };
+            }
+            if (t1_group.includes(t)) {
+                return { stage: 'Stage IIA', valid: true };
+            }
+            return { stage: '無對應分期', valid: false };
+        }
+
+        if (n === 'N0') {
+            if (t === 'T4') {
+                return { stage: 'Stage IIIA', valid: true };
+            }
+            if (t === 'T3') {
+                return { stage: 'Stage IIB', valid: true };
+            }
+            if (t === 'T2b') {
+                return { stage: 'Stage IIA', valid: true };
+            }
+            if (t === 'T2a') {
+                return { stage: 'Stage IB', valid: true };
+            }
+            if (t === 'T1c') {
+                return { stage: 'Stage IA3', valid: true };
+            }
+            if (t === 'T1b') {
+                return { stage: 'Stage IA2', valid: true };
+            }
+            if (t === 'T1mi' || t === 'T1a') {
+                return { stage: 'Stage IA1', valid: true };
+            }
+            if (t === 'Tis') {
+                return { stage: 'Stage 0', valid: true };
+            }
+            if (t === 'TX') {
+                return { stage: 'Occult Carcinoma', valid: true };
+            }
+            return { stage: '無對應分期', valid: false };
+        }
+
+        return { stage: '無對應分期', valid: false };
+    }
+
+    function getStageDescription(stageText) {
+        if (stageText === 'Occult Carcinoma') {
+            return '以痰細胞學等發現癌細胞，但影像學未見明確原發腫瘤（隱匿癌）。';
+        }
+        if (stageText === 'Stage 0') {
+            return '原位癌，局限於上皮層，尚未侵犯基底膜，屬最早期病變。';
+        }
+        if (stageText.startsWith('Stage IA')) {
+            return '局限於肺內小腫瘤，無淋巴結或遠端轉移，預後相對較佳。';
+        }
+        if (stageText === 'Stage IB') {
+            return '腫瘤稍大但仍局限於肺部，無淋巴結或遠端轉移。';
+        }
+        if (stageText.startsWith('Stage II')) {
+            return '局部進展期，可能累及鄰近結構或同側肺門淋巴結。';
+        }
+        if (stageText.startsWith('Stage III')) {
+            return '區域進展期，常累及縱膈或多站淋巴結，需多模式治療評估。';
+        }
+        if (stageText.startsWith('Stage IV')) {
+            return '遠端轉移期，代表存在胸腔外或多處轉移，以全身性治療為主。';
+        }
+        if (stageText.includes('無對應分期')) {
+            return '此 T / N / M 組合不在 AJCC 第 9 版標準分期表中，請檢查輸入是否正確，或參考原文指引。';
+        }
+        return '請搭配 AJCC 第 9 版正式指引與臨床評估解讀此分期結果。';
+    }
+
+    function updateResultAppearance(stageText, valid) {
+        let category = 'early';
+
+        if (!valid || stageText.includes('無對應分期')) {
+            category = 'invalid';
+        } else if (stageText.startsWith('Stage IV')) {
+            category = 'iv';
+        } else if (stageText.startsWith('Stage III')) {
+            category = 'iii';
+        } else if (stageText.startsWith('Stage II')) {
+            category = 'ii';
+        } else {
+            category = 'early';
+        }
+
+        if (category === 'iv') {
+            resultStageEl.style.color = '#dc2626';
+            resultBoxEl.style.borderColor = '#fecaca';
+            resultBoxEl.style.backgroundColor = '#fef2f2';
+        } else if (category === 'iii') {
+            resultStageEl.style.color = '#ea580c';
+            resultBoxEl.style.borderColor = '#fed7aa';
+            resultBoxEl.style.backgroundColor = '#fff7ed';
+        } else if (category === 'ii') {
+            resultStageEl.style.color = '#d97706';
+            resultBoxEl.style.borderColor = '#fde68a';
+            resultBoxEl.style.backgroundColor = '#fffbeb';
+        } else if (category === 'invalid') {
+            resultStageEl.style.color = '#b91c1c';
+            resultBoxEl.style.borderColor = '#fecaca';
+            resultBoxEl.style.backgroundColor = '#fef2f2';
+        } else {
+            resultStageEl.style.color = '#2563eb';
+            resultBoxEl.style.borderColor = '#bfdbfe';
+            resultBoxEl.style.backgroundColor = '#eff6ff';
+        }
+    }
+
+    function calculateStageAndUpdateUI() {
+        const t = tSelect.value;
+        const n = nSelect.value;
+        const m = mSelect.value;
+
+        const { stage, valid } = determineStage(t, n, m);
+
+        // Reset copy button state
         resetCopyButton();
 
-        // 定義 T 的群組方便判斷
-        const t1_group = ['T1mi', 'T1a', 'T1b', 'T1c'];
-        const t2_group = ['T2a', 'T2b'];
-        const t1_t2_group = t1_group.concat(t2_group);
-
-        // 邏輯核心 (AJCC 9th Lung Cancer)
-        if (m === 'M1c1' || m === 'M1c2') {
-            stage = "Stage IVB";
-        } else if (m === 'M1a' || m === 'M1b') {
-            stage = "Stage IVA";
-        } else {
-            if (n === 'N3') {
-                if (t === 'T3' || t === 'T4') stage = "Stage IIIC";
-                else if (t1_t2_group.includes(t)) stage = "Stage IIIB";
-                else stage = "異常組合 (Check T)"; 
-            }
-            else if (n === 'N2b') {
-                if (t === 'T4') stage = "Stage IIIB";
-                else if (t === 'T3' || t2_group.includes(t)) stage = "Stage IIIB";
-                else if (t1_group.includes(t)) stage = "Stage IIIA";
-                else stage = "異常組合 (Check T)";
-            }
-            else if (n === 'N2a') {
-                if (t === 'T4') stage = "Stage IIIB";
-                else if (t === 'T3' || t2_group.includes(t)) stage = "Stage IIIA";
-                else if (t1_group.includes(t)) stage = "Stage IIB";
-                else stage = "異常組合 (Check T)";
-            }
-            else if (n === 'N1') {
-                if (t === 'T3' || t === 'T4') stage = "Stage IIIA";
-                else if (t2_group.includes(t)) stage = "Stage IIB";
-                else if (t1_group.includes(t)) stage = "Stage IIA";
-                else stage = "異常組合 (Check T)";
-            }
-            else if (n === 'N0') {
-                if (t === 'T4') stage = "Stage IIIA";
-                else if (t === 'T3') stage = "Stage IIB";
-                else if (t === 'T2b') stage = "Stage IIA";
-                else if (t === 'T2a') stage = "Stage IB";
-                else if (t === 'T1c') stage = "Stage IA3";
-                else if (t === 'T1b') stage = "Stage IA2";
-                else if (t === 'T1mi' || t === 'T1a') stage = "Stage IA1";
-                else if (t === 'Tis') stage = "Stage 0";
-                else if (t === 'TX') stage = "Occult Carcinoma";
-                else stage = "異常組合 (Check T)";
-            }
-        }
-        
         // 更新文字
-        const resultEl = document.getElementById('result');
-        resultEl.innerText = stage;
-        
+        resultStageEl.innerText = stage;
+        const tnmText = `TNM：c${t} ${n} ${m}`;
+        resultTNMEl.innerText = tnmText;
+        resultDescEl.innerText = getStageDescription(stage);
+
         // 更新顏色
-        const resultBox = document.getElementById('result-container');
-        if (stage.includes('IV')) {
-            resultEl.style.color = '#dc2626'; 
-            resultBox.style.borderColor = '#fecaca';
-            resultBox.style.backgroundColor = '#fef2f2';
-        } else if (stage.includes('III')) {
-            resultEl.style.color = '#ea580c';
-            resultBox.style.borderColor = '#fed7aa';
-            resultBox.style.backgroundColor = '#fff7ed';
-        } else if (stage.includes('II')) {
-            resultEl.style.color = '#d97706';
-            resultBox.style.borderColor = '#fde68a';
-            resultBox.style.backgroundColor = '#fffbeb';
-        } else {
-            resultEl.style.color = '#2563eb';
-            resultBox.style.borderColor = '#bfdbfe';
-            resultBox.style.backgroundColor = '#eff6ff';
+        updateResultAppearance(stage, valid);
+    }
+
+    function updateTBySize() {
+        const sizeVal = parseFloat(sizeInput.value);
+        if (isNaN(sizeVal) || sizeVal < 0) {
+            return;
         }
+
+        let tVal = tSelect.value;
+
+        if (sizeVal <= 1) {
+            tVal = 'T1a';
+        } else if (sizeVal <= 2) {
+            tVal = 'T1b';
+        } else if (sizeVal <= 3) {
+            tVal = 'T1c';
+        } else if (sizeVal <= 4) {
+            tVal = 'T2a';
+        } else if (sizeVal <= 5) {
+            tVal = 'T2b';
+        } else if (sizeVal <= 7) {
+            tVal = 'T3';
+        } else {
+            tVal = 'T4';
+        }
+
+        tSelect.value = tVal;
+        calculateStageAndUpdateUI();
+    }
+
+    function getSelectedCopyLang() {
+        const radios = document.querySelectorAll('input[name="copyLang"]');
+        for (const r of radios) {
+            if (r.checked) return r.value;
+        }
+        return 'zh';
     }
 
     function copyToClipboard() {
-        const t = document.getElementById('t-stage').value;
-        const n = document.getElementById('n-stage').value;
-        const m = document.getElementById('m-stage').value;
-        const stage = document.getElementById('result').innerText;
-        
-        // 格式化複製文字
-        const textToCopy = `Lung Cancer AJCC 9th Staging:\n${t} + ${n} + ${m}\n👉 Result: ${stage}`;
-        
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            // 成功回饋
-            const btn = document.getElementById('copyBtn');
-            const btnText = document.getElementById('btnText');
-            const btnIcon = document.getElementById('btnIcon');
-            
-            btn.classList.add('copied');
-            btnText.innerText = "已複製！";
-            btnIcon.innerText = "✅";
-            
-            setTimeout(() => {
-               resetCopyButton();
-            }, 2000);
-            
-        }).catch(err => {
-            console.error('複製失敗', err);
-            alert('複製失敗，請手動選取複製');
-        });
+        const t = tSelect.value;
+        const n = nSelect.value;
+        const m = mSelect.value;
+        const stageText = resultStageEl.innerText;
+        const lang = getSelectedCopyLang();
+
+        let textToCopy = '';
+
+        if (lang === 'zh') {
+            textToCopy =
+                `肺癌 AJCC 第 9 版分期：\n` +
+                `TNM：c${t} ${n} ${m}\n` +
+                `期別：${stageText}\n` +
+                `（僅供教學參考，實際仍以臨床醫師與正式指引為準）`;
+        } else {
+            textToCopy =
+                `Lung Cancer AJCC 9th Staging\n` +
+                `TNM: c${t} ${n} ${m}\n` +
+                `Stage: ${stageText}\n` +
+                `For educational use only; not for clinical decision making.`;
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy).then(
+                () => handleCopySuccess(),
+                () => fallbackCopy(textToCopy)
+            );
+        } else {
+            fallbackCopy(textToCopy);
+        }
+    }
+
+    function fallbackCopy(text) {
+        try {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '-1000px';
+            textArea.style.left = '-1000px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            const successful = document.execCommand('copy');
+            document.body.removeChild(textArea);
+
+            if (successful) {
+                handleCopySuccess();
+            } else {
+                alert('複製失敗，請手動選取文字複製。');
+            }
+        } catch (e) {
+            alert('複製失敗，請手動選取文字複製。');
+        }
+    }
+
+    function handleCopySuccess() {
+        copyBtn.classList.add('copied');
+        btnText.innerText = '已複製！';
+        btnIcon.innerText = '✅';
+
+        setTimeout(() => {
+            resetCopyButton();
+        }, 2000);
     }
 
     function resetCopyButton() {
-        const btn = document.getElementById('copyBtn');
-        const btnText = document.getElementById('btnText');
-        const btnIcon = document.getElementById('btnIcon');
-        
-        btn.classList.remove('copied');
-        btnText.innerText = "複製結果";
-        btnIcon.innerText = "📋";
+        copyBtn.classList.remove('copied');
+        btnText.innerText = '複製結果';
+        btnIcon.innerText = '📋';
     }
 
-    // 初始化
-    calculateStage();
+    function resetAllFields() {
+        sizeInput.value = '';
+        tSelect.value = 'TX';
+        nSelect.value = 'N0';
+        mSelect.value = 'M0';
+
+        const radios = document.querySelectorAll('input[name="copyLang"]');
+        radios.forEach(r => {
+            r.checked = (r.value === 'zh');
+        });
+
+        resetCopyButton();
+        calculateStageAndUpdateUI();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        tSelect.addEventListener('change', calculateStageAndUpdateUI);
+        nSelect.addEventListener('change', calculateStageAndUpdateUI);
+        mSelect.addEventListener('change', calculateStageAndUpdateUI);
+        sizeInput.addEventListener('input', updateTBySize);
+
+        copyBtn.addEventListener('click', copyToClipboard);
+        resetBtn.addEventListener('click', resetAllFields);
+
+        calculateStageAndUpdateUI();
+    });
 </script>
 
 </body>
