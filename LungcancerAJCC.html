@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>肺癌 AJCC 第 9 版分期計算機</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 480px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fff;
+            transition: border-color 0.2s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #eff6ff;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #bfdbfe;
+        }
+
+        .result-title {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .note {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🫁 肺癌 AJCC 分期 (9th)</h1>
+
+    <div class="form-group">
+        <label for="t-stage">T (原發腫瘤)</label>
+        <select id="t-stage" onchange="calculateStage()">
+            <option value="TX">TX: 原發腫瘤無法評估 / 痰中有癌細胞</option>
+            <option value="Tis">Tis: 原位癌 (Carcinoma in situ)</option>
+            <option value="T1mi">T1mi: 微侵犯腺癌 (Minimally invasive)</option>
+            <option value="T1a">T1a: ≤ 1 cm</option>
+            <option value="T1b">T1b: > 1 cm 且 ≤ 2 cm</option>
+            <option value="T1c">T1c: > 2 cm 且 ≤ 3 cm</option>
+            <option value="T2a">T2a: > 3 cm 且 ≤ 4 cm</option>
+            <option value="T2b">T2b: > 4 cm 且 ≤ 5 cm</option>
+            <option value="T3">T3: > 5 cm 且 ≤ 7 cm / 侵犯特定結構</option>
+            <option value="T4">T4: > 7 cm / 侵犯縱膈等重要結構</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="n-stage">N (區域淋巴結)</label>
+        <select id="n-stage" onchange="calculateStage()">
+            <option value="N0">N0: 無淋巴轉移</option>
+            <option value="N1">N1: 同側支氣管周圍/肺門</option>
+            <option value="N2a">N2a: 單一站同側縱膈/隆突下</option>
+            <option value="N2b">N2b: 多站同側縱膈/隆突下</option>
+            <option value="N3">N3: 對側縱膈/對側肺門/鎖骨上</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="m-stage">M (遠端轉移)</label>
+        <select id="m-stage" onchange="calculateStage()">
+            <option value="M0">M0: 無遠端轉移</option>
+            <option value="M1a">M1a: 對側肺葉/胸膜/心包膜結節</option>
+            <option value="M1b">M1b: 單一胸腔外轉移</option>
+            <option value="M1c1">M1c1: 多處胸腔外轉移 (單一器官)</option>
+            <option value="M1c2">M1c2: 多處胸腔外轉移 (多器官)</option>
+        </select>
+    </div>
+
+    <div class="result-box">
+        <div class="result-title">Calculated Stage</div>
+        <div class="result-value" id="result">Occult Carcinoma</div>
+    </div>
+
+    <div class="note">
+        本工具僅供參考，請以 AJCC 第 9 版正式指引與臨床醫師判斷為準。
+    </div>
+</div>
+
+<script>
+    function calculateStage() {
+        const t = document.getElementById('t-stage').value;
+        const n = document.getElementById('n-stage').value;
+        const m = document.getElementById('m-stage').value;
+        let stage = "Unknown";
+
+        // 定義 T 的群組方便判斷
+        const t1_group = ['T1mi', 'T1a', 'T1b', 'T1c'];
+        const t2_group = ['T2a', 'T2b'];
+        const t1_t2_group = t1_group.concat(t2_group);
+
+        // 邏輯核心 (AJCC 9th Lung Cancer)
+        
+        // 1. 先看 M (最優先)
+        if (m === 'M1c1' || m === 'M1c2') {
+            stage = "Stage IVB";
+        } else if (m === 'M1a' || m === 'M1b') {
+            stage = "Stage IVA";
+        } else {
+            // M0 的情況，開始看 N 和 T
+            
+            // --- N3 ---
+            if (n === 'N3') {
+                if (t === 'T3' || t === 'T4') {
+                    stage = "Stage IIIC";
+                } else if (t1_t2_group.includes(t)) {
+                    stage = "Stage IIIB";
+                } else {
+                    stage = "N3 異常組合 (請確認 T)"; 
+                }
+            }
+            
+            // --- N2b ---
+            else if (n === 'N2b') {
+                if (t === 'T4') {
+                    stage = "Stage IIIB";
+                } else if (t === 'T3' || t2_group.includes(t)) {
+                    // T2-T3, N2b -> IIIB
+                    stage = "Stage IIIB";
+                } else if (t1_group.includes(t)) {
+                    stage = "Stage IIIA";
+                } else {
+                     stage = "N2b 異常組合";
+                }
+            }
+
+            // --- N2a ---
+            else if (n === 'N2a') {
+                if (t === 'T4') {
+                    stage = "Stage IIIB";
+                } else if (t === 'T3' || t2_group.includes(t)) {
+                    // T2-T3, N2a -> IIIA
+                    stage = "Stage IIIA";
+                } else if (t1_group.includes(t)) {
+                    stage = "Stage IIB";
+                } else {
+                    stage = "N2a 異常組合";
+                }
+            }
+
+            // --- N1 ---
+            else if (n === 'N1') {
+                if (t === 'T3' || t === 'T4') {
+                    stage = "Stage IIIA";
+                } else if (t2_group.includes(t)) {
+                    stage = "Stage IIB";
+                } else if (t1_group.includes(t)) {
+                    stage = "Stage IIA";
+                } else {
+                    stage = "N1 異常組合";
+                }
+            }
+
+            // --- N0 ---
+            else if (n === 'N0') {
+                if (t === 'T4') stage = "Stage IIIA";
+                else if (t === 'T3') stage = "Stage IIB";
+                else if (t === 'T2b') stage = "Stage IIA";
+                else if (t === 'T2a') stage = "Stage IB";
+                else if (t === 'T1c') stage = "Stage IA3";
+                else if (t === 'T1b') stage = "Stage IA2";
+                else if (t === 'T1mi' || t === 'T1a') stage = "Stage IA1";
+                else if (t === 'Tis') stage = "Stage 0";
+                else if (t === 'TX') stage = "Occult Carcinoma";
+                else stage = "N0 異常組合";
+            }
+        }
+        
+        // 例外處理: 如果是 TX 但 N > 0 或 M0，通常歸類困難，但在 AJCC 表中 TX N0 M0 是 Occult
+        // 這裡維持上述邏輯，若 TX 遇到 N1-N3，會落入上面的異常或依邏輯判斷 (臨床上 TX 通常配 N0 M0)
+        // 為了 UI 體驗，如果組合出不來的，保持 Unknown
+        
+        document.getElementById('result').innerText = stage;
+        
+        // 動態改變顏色 (可選)
+        const resultEl = document.getElementById('result');
+        if (stage.includes('IV')) resultEl.style.color = '#dc2626'; // 紅色
+        else if (stage.includes('III')) resultEl.style.color = '#ea580c'; // 橘色
+        else if (stage.includes('II')) resultEl.style.color = '#d97706'; // 黃色
+        else resultEl.style.color = '#2563eb'; // 藍色
+    }
+
+    // 初始化執行一次
+    calculateStage();
+</script>
+
+</body>
+</html>
