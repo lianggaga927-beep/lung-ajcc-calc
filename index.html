@@ -7,6 +7,7 @@
     <style>
         :root {
             --primary-color: #2563eb;
+            --success-color: #10b981;
             --bg-color: #f3f4f6;
             --card-bg: #ffffff;
             --text-color: #1f2937;
@@ -29,7 +30,7 @@
             background-color: var(--card-bg);
             padding: 2rem;
             border-radius: var(--border-radius);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             width: 100%;
             max-width: 480px;
         }
@@ -37,7 +38,7 @@
         h1 {
             text-align: center;
             font-size: 1.5rem;
-            color: var(--primary-color);
+            color: var(--text-color);
             margin-bottom: 1.5rem;
             border-bottom: 2px solid #e5e7eb;
             padding-bottom: 1rem;
@@ -51,6 +52,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            color: #374151;
         }
 
         select {
@@ -60,7 +62,8 @@
             border-radius: 8px;
             font-size: 1rem;
             background-color: #fff;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
+            cursor: pointer;
         }
 
         select:focus {
@@ -72,24 +75,62 @@
         .result-box {
             margin-top: 2rem;
             padding: 1.5rem;
-            background-color: #eff6ff;
-            border-radius: 8px;
+            background-color: #f8fafc;
+            border-radius: 12px;
             text-align: center;
-            border: 1px solid #bfdbfe;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
         }
 
         .result-title {
             font-size: 0.875rem;
-            color: #6b7280;
+            color: #64748b;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-weight: 600;
         }
 
         .result-value {
             font-size: 2.5rem;
             font-weight: 800;
             color: var(--primary-color);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        /* 複製按鈕樣式 */
+        .copy-btn {
+            background-color: white;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+            color: #111827;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        .copy-btn.copied {
+            background-color: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
         }
 
         .note {
@@ -97,6 +138,7 @@
             font-size: 0.75rem;
             color: #9ca3af;
             text-align: center;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -143,13 +185,18 @@
         </select>
     </div>
 
-    <div class="result-box">
+    <div class="result-box" id="result-container">
         <div class="result-title">Calculated Stage</div>
         <div class="result-value" id="result">Occult Carcinoma</div>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">
+            <span id="btnIcon">📋</span> <span id="btnText">複製結果</span>
+        </button>
     </div>
 
     <div class="note">
-        本工具僅供參考，請以 AJCC 第 9 版正式指引與臨床醫師判斷為準。
+        本工具僅供參考，請以 AJCC 第 9 版正式指引與臨床醫師判斷為準。<br>
+        Created for Educational Purpose.
     </div>
 </div>
 
@@ -159,6 +206,9 @@
         const n = document.getElementById('n-stage').value;
         const m = document.getElementById('m-stage').value;
         let stage = "Unknown";
+        
+        // 重置按鈕狀態
+        resetCopyButton();
 
         // 定義 T 的群組方便判斷
         const t1_group = ['T1mi', 'T1a', 'T1b', 'T1c'];
@@ -166,68 +216,34 @@
         const t1_t2_group = t1_group.concat(t2_group);
 
         // 邏輯核心 (AJCC 9th Lung Cancer)
-        
-        // 1. 先看 M (最優先)
         if (m === 'M1c1' || m === 'M1c2') {
             stage = "Stage IVB";
         } else if (m === 'M1a' || m === 'M1b') {
             stage = "Stage IVA";
         } else {
-            // M0 的情況，開始看 N 和 T
-            
-            // --- N3 ---
             if (n === 'N3') {
-                if (t === 'T3' || t === 'T4') {
-                    stage = "Stage IIIC";
-                } else if (t1_t2_group.includes(t)) {
-                    stage = "Stage IIIB";
-                } else {
-                    stage = "N3 異常組合 (請確認 T)"; 
-                }
+                if (t === 'T3' || t === 'T4') stage = "Stage IIIC";
+                else if (t1_t2_group.includes(t)) stage = "Stage IIIB";
+                else stage = "異常組合 (Check T)"; 
             }
-            
-            // --- N2b ---
             else if (n === 'N2b') {
-                if (t === 'T4') {
-                    stage = "Stage IIIB";
-                } else if (t === 'T3' || t2_group.includes(t)) {
-                    // T2-T3, N2b -> IIIB
-                    stage = "Stage IIIB";
-                } else if (t1_group.includes(t)) {
-                    stage = "Stage IIIA";
-                } else {
-                     stage = "N2b 異常組合";
-                }
+                if (t === 'T4') stage = "Stage IIIB";
+                else if (t === 'T3' || t2_group.includes(t)) stage = "Stage IIIB";
+                else if (t1_group.includes(t)) stage = "Stage IIIA";
+                else stage = "異常組合 (Check T)";
             }
-
-            // --- N2a ---
             else if (n === 'N2a') {
-                if (t === 'T4') {
-                    stage = "Stage IIIB";
-                } else if (t === 'T3' || t2_group.includes(t)) {
-                    // T2-T3, N2a -> IIIA
-                    stage = "Stage IIIA";
-                } else if (t1_group.includes(t)) {
-                    stage = "Stage IIB";
-                } else {
-                    stage = "N2a 異常組合";
-                }
+                if (t === 'T4') stage = "Stage IIIB";
+                else if (t === 'T3' || t2_group.includes(t)) stage = "Stage IIIA";
+                else if (t1_group.includes(t)) stage = "Stage IIB";
+                else stage = "異常組合 (Check T)";
             }
-
-            // --- N1 ---
             else if (n === 'N1') {
-                if (t === 'T3' || t === 'T4') {
-                    stage = "Stage IIIA";
-                } else if (t2_group.includes(t)) {
-                    stage = "Stage IIB";
-                } else if (t1_group.includes(t)) {
-                    stage = "Stage IIA";
-                } else {
-                    stage = "N1 異常組合";
-                }
+                if (t === 'T3' || t === 'T4') stage = "Stage IIIA";
+                else if (t2_group.includes(t)) stage = "Stage IIB";
+                else if (t1_group.includes(t)) stage = "Stage IIA";
+                else stage = "異常組合 (Check T)";
             }
-
-            // --- N0 ---
             else if (n === 'N0') {
                 if (t === 'T4') stage = "Stage IIIA";
                 else if (t === 'T3') stage = "Stage IIB";
@@ -238,35 +254,77 @@
                 else if (t === 'T1mi' || t === 'T1a') stage = "Stage IA1";
                 else if (t === 'Tis') stage = "Stage 0";
                 else if (t === 'TX') stage = "Occult Carcinoma";
-                else stage = "N0 異常組合";
+                else stage = "異常組合 (Check T)";
             }
         }
         
-        // 例外處理: 如果是 TX 但 N > 0 或 M0，通常歸類困難，但在 AJCC 表中 TX N0 M0 是 Occult
-        // 這裡維持上述邏輯，若 TX 遇到 N1-N3，會落入上面的異常或依邏輯判斷 (臨床上 TX 通常配 N0 M0)
-        // 為了 UI 體驗，如果組合出不來的，保持 Unknown
-        
-        document.getElementById('result').innerText = stage;
-        
-        // 動態改變顏色 (可選)
+        // 更新文字
         const resultEl = document.getElementById('result');
-        if (stage.includes('IV')) resultEl.style.color = '#dc2626'; // 紅色
-        else if (stage.includes('III')) resultEl.style.color = '#ea580c'; // 橘色
-        else if (stage.includes('II')) resultEl.style.color = '#d97706'; // 黃色
-        else resultEl.style.color = '#2563eb'; // 藍色
+        resultEl.innerText = stage;
+        
+        // 更新顏色
+        const resultBox = document.getElementById('result-container');
+        if (stage.includes('IV')) {
+            resultEl.style.color = '#dc2626'; 
+            resultBox.style.borderColor = '#fecaca';
+            resultBox.style.backgroundColor = '#fef2f2';
+        } else if (stage.includes('III')) {
+            resultEl.style.color = '#ea580c';
+            resultBox.style.borderColor = '#fed7aa';
+            resultBox.style.backgroundColor = '#fff7ed';
+        } else if (stage.includes('II')) {
+            resultEl.style.color = '#d97706';
+            resultBox.style.borderColor = '#fde68a';
+            resultBox.style.backgroundColor = '#fffbeb';
+        } else {
+            resultEl.style.color = '#2563eb';
+            resultBox.style.borderColor = '#bfdbfe';
+            resultBox.style.backgroundColor = '#eff6ff';
+        }
     }
 
-    // 初始化執行一次
+    function copyToClipboard() {
+        const t = document.getElementById('t-stage').value;
+        const n = document.getElementById('n-stage').value;
+        const m = document.getElementById('m-stage').value;
+        const stage = document.getElementById('result').innerText;
+        
+        // 格式化複製文字
+        const textToCopy = `Lung Cancer AJCC 9th Staging:\n${t} + ${n} + ${m}\n👉 Result: ${stage}`;
+        
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            // 成功回饋
+            const btn = document.getElementById('copyBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            
+            btn.classList.add('copied');
+            btnText.innerText = "已複製！";
+            btnIcon.innerText = "✅";
+            
+            setTimeout(() => {
+               resetCopyButton();
+            }, 2000);
+            
+        }).catch(err => {
+            console.error('複製失敗', err);
+            alert('複製失敗，請手動選取複製');
+        });
+    }
+
+    function resetCopyButton() {
+        const btn = document.getElementById('copyBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        
+        btn.classList.remove('copied');
+        btnText.innerText = "複製結果";
+        btnIcon.innerText = "📋";
+    }
+
+    // 初始化
     calculateStage();
 </script>
 
 </body>
 </html>
-
-<div class="result-box">
-    <div class="result-title">Calculated Stage</div>
-    <div class="result-value" id="result">Occult Carcinoma</div>
-    <button onclick="copyToClipboard()" style="margin-top:15px; padding:8px 16px; background:white; border:1px solid #ccc; border-radius:5px; cursor:pointer;">
-        📋 複製結果到剪貼簿
-    </button>
-</div>
